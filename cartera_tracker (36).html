@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cartera Tracker — RV Chile</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Aller:ital,wght@0,300;0,700;1,300&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Aller',sans-serif!important}
+    :root{--g:#7BC143;--g2:#B3D88C;--g4:#E1F1D3;--c:#E07F5C;--cl:#EAA992;--sl:#5D7082;--dk:#1B2127;--gr3:#BEBEBE;--gr4:#E6E6E6;--cb:#EBEBEB}
+    body{font-family:'Aller',sans-serif;font-weight:300;background:#f5f5f5;color:#000;min-height:100vh;padding:2rem 1rem;display:flex;justify-content:center}
+    .wrap{max-width:960px;width:100%;background:#fff;border-radius:10px;padding:2rem 2rem 2.5rem;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+    .w{font-family:'Aller',sans-serif;font-weight:300;max-width:920px;color:#000}
+    .wh{margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between}
+    .wh h2{font-size:20px;font-weight:700;color:var(--g);letter-spacing:-.01em}
+    .dlbtn{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;font-size:12px;font-weight:300;border-radius:4px;border:1px solid var(--gr3);background:transparent;color:#000;cursor:pointer}
+    .dlbtn:hover{background:var(--gr4)}
+    .tabs{display:flex;gap:5px;margin-bottom:1.25rem;flex-wrap:wrap}
+    .tb,.tbg{padding:6px 14px;font-size:12px;border-radius:4px;cursor:pointer;transition:all .15s}
+    .tb{font-weight:300;border:1px solid var(--gr3);background:transparent;color:#000}
+    .tb:hover{background:var(--gr4)}
+    .tb.active{background:var(--sl);border-color:var(--sl);color:#fff;font-weight:700}
+    .tbg{font-weight:300;border:1px solid var(--g2);background:transparent;color:var(--sl)}
+    .tbg:hover{background:var(--g4)}
+    .tbg.active{background:var(--g);border-color:var(--g);color:#fff;font-weight:700}
+    .mp{display:none}.mp.active{display:block}
+    .tr{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:10px}
+    .mc{background:var(--cb);border-radius:6px;padding:10px;border:1px solid #d4d4d4}
+    .ml{font-size:9px;color:var(--sl);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:300}
+    .mv{font-size:16px;font-weight:700;color:#000;line-height:1}
+    .ms{font-size:11px;color:#000;margin-top:4px;font-weight:300}
+    .bh{display:inline-block;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700;background:var(--sl);color:#fff}
+    .sec{background:#fff;border:1px solid var(--gr4);border-radius:6px;padding:13px 15px;margin-bottom:8px}
+    .st{font-size:10px;font-weight:700;color:#000;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--gr4);display:flex;justify-content:space-between;align-items:center}
+    .st-note{font-size:9px;color:var(--sl);font-weight:300;text-transform:none;letter-spacing:0;font-style:italic}
+    /* fund cards */
+    .fg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    .fc table{table-layout:fixed;width:100%}
+    .fc{border-radius:4px;overflow:hidden;border:1px solid #fff}
+    .fc table{width:100%;border-collapse:collapse}
+    .fth td{background:var(--sl);color:#fff;font-size:11px;font-weight:700;padding:5px 8px;text-align:right;white-space:nowrap}.fth td:nth-child(2){border-right:2px solid rgba(255,255,255,0.4)}
+    .fth td:first-child{text-align:left}
+    /* linea divisora entre OW y UW */
+    .sep-r td{background:#fff;height:7px;padding:0;border:none}.sep-r td:nth-child(2){border-right:2px solid #fff}
+    /* OW rows — verde solo si comun (clase .com) */
+    .ow-r td{background:#fff;padding:6px 10px;font-size:11px;border-bottom:1px solid #E6E6E6;text-align:right;font-weight:300}.ow-r td:nth-child(2){border-right:2px solid #fff}
+    .ow-r td:first-child{text-align:left}
+    .ow-r.com td{background:#F0F8E8}.ow-r.com td:nth-child(2){border-right:2px solid #fff}
+    .ow-r:last-child td{border-bottom:none}
+    /* UW rows — naranja solo si comun */
+    .uw-r td{background:#fff;padding:6px 10px;font-size:11px;border-bottom:1px solid #F0F0F0;text-align:right;font-weight:300}.uw-r td:nth-child(2){border-right:2px solid #fff}
+    .uw-r td:first-child{text-align:left}
+    .uw-r.com td{background:#FDF2EF}.uw-r.com td:nth-child(2){border-right:2px solid #fff}
+    .uw-r:last-child td{border-bottom:none}
+    .fname{font-size:11px;color:#1B2127;font-weight:300;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .fipsa{font-size:9px;color:#969696;font-weight:300}
+    .pv{color:#2E7D0A;font-weight:700}.nv{color:#E07F5C;font-weight:700}.zv{color:#888}
+    /* comparison table */
+    .ctb{width:100%;border-collapse:collapse;font-size:11px;font-weight:300;table-layout:fixed}
+    .ctb th{text-align:right;padding:4px 8px;color:#fff;font-weight:700;background:var(--sl);font-size:10px;text-transform:uppercase;letter-spacing:.04em}.ctb th:first-child{text-align:left}
+    .ctb td{padding:4px 8px;color:#000;font-weight:300;border-bottom:1px solid var(--gr4);font-size:11px;height:26px;vertical-align:middle;background:#fff;text-align:right}.ctb td.nv{color:#E07F5C!important;font-weight:300}.ctb td.pv{color:#2E7D0A!important;font-weight:300}.ctb td:empty,.ctb th:empty{padding:0;border:none;background:#fff!important;width:6px}
+    .ctb tr:last-child td{border-bottom:none}
+    .ctb .sec-row td{background:#fff!important;font-weight:700;border-top:none;border-bottom:2px solid var(--g)}.ctb td:first-child{text-align:left!important}
+    .ctb .sec-row-gray td{border-bottom:1px solid var(--gr3)!important;font-weight:400!important}
+    .ctb .sec-row td:first-child{border-left:none}
+    .ctb .stk-row td{background:#fff;padding-left:16px}
+    .bg-ow{background:#EBF7E3!important}.bg-uw{background:#FDF2EF!important}
+    .ctb .bg-ow{background:#EBF7E3!important}.ctb .bg-uw{background:#FDF2EF!important}
+    .cmtbox{background:var(--gr4);border-left:3px solid var(--sl);padding:10px 13px;border-radius:0 5px 5px 0;font-size:12px;color:#000;line-height:1.65;font-weight:300;margin-top:8px}
+    .cmtbox b{font-weight:700}
+    .cmtby{font-size:10px;color:var(--sl);margin-top:6px;font-weight:300}
+    .ii{border-left:3px solid var(--gr3);padding:7px 11px;margin-bottom:6px;background:var(--gr4);border-radius:0 5px 5px 0}
+    .ii.hi{border-left-color:var(--c)}.ii.me{border-left-color:var(--cl)}.ii.lo{border-left-color:var(--g)}
+    .iit{font-size:12px;font-weight:700;color:#000}
+    .iib{font-size:12px;color:#000;line-height:1.4;font-weight:300;margin-top:2px}
+    .etb{width:100%;border-collapse:collapse;font-size:11px;font-weight:300;table-layout:fixed}
+    .etb th{text-align:left;padding:6px 8px;color:#fff;font-weight:700;background:var(--sl);font-size:10px;text-transform:uppercase;letter-spacing:.04em}
+    .etb td{padding:5px 8px;color:#000;border-bottom:1px solid var(--gr4)}
+    .etb .rl2{font-weight:700}
+    .etb tr:nth-child(even) td{background:var(--gr4)}
+    .ac{color:var(--c)}
+    .evo-sec td{background:var(--g4)!important;font-weight:700;font-size:11px;color:#1B2127;border-top:1.5px solid var(--g);border-bottom:1px solid var(--g2);padding:4px 8px}
+    .evo-stk{font-weight:600;color:#1B2127;font-size:11px}
+    .leg{display:flex;gap:12px;font-size:10px;color:#969696;margin-top:8px;flex-wrap:wrap}
+    .ls{display:flex;align-items:center;gap:3px}
+    .lsq{width:8px;height:8px;border-radius:1px}
+    .tooltip{position:fixed;background:#1B2127;color:#fff;font-size:11px;font-weight:300;padding:5px 9px;border-radius:4px;pointer-events:none;display:none;z-index:9999;white-space:nowrap;line-height:1.6}
+  </style>
+</head>
+<body style="background:#f5f5f5;min-height:100vh;display:flex;justify-content:center;padding:2rem 1rem">
+<div class="wrap"><div class="w">
+
+  <div class="wh">
+    <h2>Cartera Tracker — RV Chile</h2>
+    <button class="dlbtn" onclick="dlHTML()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Descargar HTML
+    </button>
+  </div>
+
+  <div class="tabs">
+    <button class="tb active" onclick="sp('jun',this)">Jun 2026</button>
+    <button class="tbg" onclick="sp('evo',this)">Evolución</button>
+  </div>
+
+  <div class="mp active" id="panel-jun">
+    <table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:1.5rem">
+      <thead><tr>
+        <th style="background:var(--sl);color:#fff;padding:6px 10px;text-align:left;width:18%;font-size:10px;text-transform:uppercase;letter-spacing:.04em"></th>
+        <th style="background:var(--sl);color:#fff;padding:6px 10px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:.04em">Retorno MTD</th>
+        <th style="background:var(--sl);color:#fff;padding:6px 10px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:.04em">Retorno YTD</th>
+        <th style="background:var(--sl);color:#fff;padding:6px 10px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:.04em">Alpha (YTD)</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td style="padding:6px 10px;font-weight:700;border-bottom:2px solid var(--g)">IPSA</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:2px solid var(--g);color:#000">+0,7%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:2px solid var(--g);color:#000">+2,7%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:2px solid var(--g);color:#ccc">—</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 10px;font-weight:700;border-bottom:1px solid var(--gr4)">Toesca</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#000">+0,5%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#000">+3,7%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#000">+1,0%</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 10px;font-weight:700;border-bottom:1px solid var(--gr4)">Compass</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#E07F5C">-0,2%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#000">+4,5%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#000">+1,8%</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 10px;font-weight:700">BTG</td>
+          <td style="padding:6px 10px;text-align:right;color:#000">+0,2%</td>
+          <td style="padding:6px 10px;text-align:right;color:#000">+2,2%</td>
+          <td style="padding:6px 10px;text-align:right;color:#E07F5C">-0,5%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sec">
+      <div class="st">
+        Top posiciones activas por fondo
+        <span class="st-note">Verde = OW compartido por los 3 fondos · Naranja = UW compartido · OW/UW = peso fondo − peso IPSA</span>
+      </div>
+      <div class="fg">
+
+        <!-- TOESCA -->
+        <div class="fc"><table>
+          <colgroup><col style="width:35%"><col style="width:21%"><col style="width:22%"><col style="width:22%"></colgroup>
+          <tr class="fth"><td>Toesca</td><td>% IPSA</td><td>OW/UW</td><td>MTD</td></tr>
+          <tr class="ow-r com"><td><span class="fname">ORO BLANCO</span></td><td class="fipsa">—</td><td class="pv" style="font-weight:700">+5,4%</td><td class="nv">-6,7%</td></tr>
+          <tr class="ow-r"><td><span class="fname">ENELCHILE</span></td><td class="fipsa">2,9%</td><td class="pv">+3,9%</td><td class="pv">+6,1%</td></tr>
+          <tr class="ow-r"><td><span class="fname">FALABELLA</span></td><td class="fipsa">7,1%</td><td class="pv">+3,1%</td><td class="pv">+1,4%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">RIPLEY</span></td><td class="fipsa">0,6%</td><td class="pv">+3,1%</td><td class="pv">+0,2%</td></tr>
+          <tr class="ow-r"><td><span class="fname">SK</span></td><td class="fipsa">—</td><td class="pv">+2,7%</td><td class="nv">-0,9%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">LTM</span></td><td class="fipsa">10,1%</td><td class="pv">+2,6%</td><td class="pv">+12,0%</td></tr>
+          <tr class="ow-r"><td><span class="fname">ECL</span></td><td class="fipsa">1,1%</td><td class="pv">+2,4%</td><td class="nv">-2,8%</td></tr>
+          <tr class="sep-r"><td colspan="4"></td></tr>
+          <tr class="uw-r com"><td><span class="fname">SQM-B</span></td><td class="fipsa">14,5%</td><td class="nv" style="font-weight:700">-6,2%</td><td class="nv">-10,6%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">CENCOSUD</span></td><td class="fipsa">3,9%</td><td class="nv">-3,9%</td><td class="pv">+1,3%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">MALLPLAZA</span></td><td class="fipsa">4,3%</td><td class="nv">-3,9%</td><td class="nv">-1,7%</td></tr>
+          <tr class="uw-r"><td><span class="fname">BSANTANDER</span></td><td class="fipsa">7,0%</td><td class="nv">-2,6%</td><td class="pv">+7,9%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">ANDINA-B</span></td><td class="fipsa">2,5%</td><td class="nv">-2,5%</td><td class="pv">+1,1%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">ENELAM</span></td><td class="fipsa">2,3%</td><td class="nv">-2,3%</td><td class="pv">+5,9%</td></tr>
+          <tr class="uw-r"><td><span class="fname">CENCOMALLS</span></td><td class="fipsa">1,7%</td><td class="nv">-1,7%</td><td class="nv">-3,4%</td></tr>
+        </table></div>
+
+        <!-- COMPASS -->
+        <div class="fc"><table>
+          <colgroup><col style="width:35%"><col style="width:21%"><col style="width:22%"><col style="width:22%"></colgroup>
+          <tr class="fth"><td>Compass</td><td>% IPSA</td><td>OW/UW</td><td>MTD</td></tr>
+          <tr class="ow-r"><td><span class="fname">SMU</span></td><td class="fipsa">0,5%</td><td class="pv" style="font-weight:700">+8,7%</td><td class="nv">-9,3%</td></tr>
+          <tr class="ow-r"><td><span class="fname">CENCOMALLS</span></td><td class="fipsa">1,7%</td><td class="pv" style="font-weight:700">+5,4%</td><td class="nv">-3,4%</td></tr>
+          <tr class="ow-r"><td><span class="fname">BSANTANDER</span></td><td class="fipsa">7,0%</td><td class="pv" style="font-weight:700">+5,0%</td><td class="pv">+7,9%</td></tr>
+          <tr class="ow-r"><td><span class="fname">CONCHATORO</span></td><td class="fipsa">0,6%</td><td class="pv">+4,8%</td><td class="nv">-4,3%</td></tr>
+          <tr class="ow-r"><td><span class="fname">BCI</span></td><td class="fipsa">7,1%</td><td class="pv">+4,3%</td><td class="pv">+0,5%</td></tr>
+          <tr class="ow-r"><td><span class="fname">SALFACORP</span></td><td class="fipsa">0,8%</td><td class="pv">+4,0%</td><td class="nv">-8,7%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">LTM</span></td><td class="fipsa">10,1%</td><td class="pv">+3,5%</td><td class="pv">+12,0%</td></tr>
+          <tr class="sep-r"><td colspan="4"></td></tr>
+          <tr class="uw-r com"><td><span class="fname">CHILE</span></td><td class="fipsa">12,5%</td><td class="nv" style="font-weight:700">-12,5%</td><td class="pv">+9,1%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">SQM-B</span></td><td class="fipsa">14,5%</td><td class="nv" style="font-weight:700">-6,4%</td><td class="nv">-10,6%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">MALLPLAZA</span></td><td class="fipsa">4,3%</td><td class="nv">-4,3%</td><td class="nv">-1,7%</td></tr>
+          <tr class="uw-r"><td><span class="fname">PARAUCO</span></td><td class="fipsa">4,1%</td><td class="nv">-4,1%</td><td class="nv">-0,6%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">CENCOSUD</span></td><td class="fipsa">3,9%</td><td class="nv">-3,9%</td><td class="pv">+1,3%</td></tr>
+          <tr class="uw-r"><td><span class="fname">COPEC</span></td><td class="fipsa">3,1%</td><td class="nv">-2,8%</td><td class="nv">-8,5%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">ANDINA-B</span></td><td class="fipsa">2,5%</td><td class="nv">-1,7%</td><td class="pv">+1,1%</td></tr>
+        </table></div>
+
+        <!-- BTG -->
+        <div class="fc"><table>
+          <colgroup><col style="width:35%"><col style="width:21%"><col style="width:22%"><col style="width:22%"></colgroup>
+          <tr class="fth"><td>BTG Pactual</td><td>% IPSA</td><td>OW/UW</td><td>MTD</td></tr>
+          <tr class="ow-r com"><td><span class="fname">ORO BLANCO</span></td><td class="fipsa">—</td><td class="pv">+4,9%</td><td class="nv">-6,7%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">LTM</span></td><td class="fipsa">10,1%</td><td class="pv">+4,8%</td><td class="pv">+12,0%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">RIPLEY</span></td><td class="fipsa">0,6%</td><td class="pv">+4,4%</td><td class="pv">+0,2%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">CONCHATORO</span></td><td class="fipsa">0,6%</td><td class="pv">+3,2%</td><td class="nv">-4,3%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">BSANTANDER</span></td><td class="fipsa">7,0%</td><td class="pv">+3,0%</td><td class="pv">+7,9%</td></tr>
+          <tr class="ow-r"><td><span class="fname">BESALCO</span></td><td class="fipsa">—</td><td class="pv">+1,9%</td><td class="nv">-3,6%</td></tr>
+          <tr class="ow-r"><td><span class="fname">ITAUCL</span></td><td class="fipsa">2,0%</td><td class="pv">+1,8%</td><td class="pv">+4,3%</td></tr>
+          <tr class="sep-r"><td colspan="4"></td></tr>
+          <tr class="uw-r com"><td><span class="fname">CHILE</span></td><td class="fipsa">12,5%</td><td class="nv" style="font-weight:700">-12,5%</td><td class="pv">+9,1%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">SQM-B</span></td><td class="fipsa">14,5%</td><td class="nv" style="font-weight:700">-8,6%</td><td class="nv">-10,6%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">MALLPLAZA</span></td><td class="fipsa">4,3%</td><td class="nv">-4,3%</td><td class="nv">-1,7%</td></tr>
+          <tr class="uw-r"><td><span class="fname">ENELCHILE</span></td><td class="fipsa">2,9%</td><td class="nv">-2,9%</td><td class="pv">+6,1%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">ENELAM</span></td><td class="fipsa">2,3%</td><td class="nv">-2,3%</td><td class="pv">+5,9%</td></tr>
+          <tr class="uw-r"><td><span class="fname">CMPC</span></td><td class="fipsa">1,7%</td><td class="nv">-1,7%</td><td class="nv">-2,7%</td></tr>
+          <tr class="uw-r"><td><span class="fname">QUINENCO</span></td><td class="fipsa">1,7%</td><td class="nv">-1,7%</td><td class="pv">+0,4%</td></tr>
+        </table></div>
+
+      </div>
+      <div class="leg">
+        <span class="ls"><span class="lsq" style="background:#F0F8E8;border:1px solid #B3D88C"></span>OW compartido por los 3 fondos</span>
+        <span class="ls"><span class="lsq" style="background:#FDF2EF;border:1px solid #F5C4B3"></span>UW compartido por los 3 fondos</span>
+        <span class="ls"><span class="lsq" style="background:#fff;border:1px solid #E6E6E6"></span>Solo ese fondo</span>
+      </div>
+    </div>
+
+    <!-- COMPARATIVO -->
+    <div class="sec">
+      <div class="st">
+        Comparativo sectorial — OW/UW sectorial — rentabilidad
+        <span class="st-note">Verde = 2+ fondos OW · Naranja = 2+ fondos UW</span>
+      </div>
+      <table class="ctb">
+        <colgroup><col style="width:18%"><col style="width:7%"><col style="width:2%"><col style="width:13%"><col style="width:13%"><col style="width:13%"><col style="width:2%"><col style="width:16%"><col style="width:16%"></colgroup>
+        <thead><tr>
+          <th>Sector / Acción</th><th style="text-align:right">% IPSA</th><th></th><th style="text-align:center">Toesca</th><th style="text-align:center">Compass</th><th style="text-align:center">BTG</th><th></th><th style="text-align:center">MTD</th><th style="text-align:center">YTD</th>
+        </tr></thead>
+        <tbody>
+          <!-- BANCO: 2+ fondos UW (BTG -3,6, Compass -6,3) -->
+          <tr class="sec-row"><td style="text-align:left">Banco</td><td style="text-align:right">28,6%</td><td></td><td style="text-align:center;color:#000">0,0%</td><td style="text-align:center;color:#E07F5C;font-weight:700">-6,2%</td><td style="text-align:center;color:#E07F5C">-4,9%</td><td></td><td colspan="2"></td></tr>
+          <!-- CHILE: 2 fondos UW (BTG -10,2, Compass -11,6) -->
+          <tr class="stk-row"><td style="text-align:left">CHILE</td><td style="color:#969696;text-align:right">12,5%</td><td></td><td  style="text-align:center">+1,0%</td><td  style="text-align:center;font-weight:700">-12,5%</td><td  style="text-align:center;font-weight:700">-12,5%</td><td></td><td class="pv" style="text-align:center">+9,1%</td><td class="pv" style="text-align:center">+2,2%</td></tr>
+          <!-- BSANTANDER: 2 fondos OW (BTG +3,9, Compass +2,9) -->
+          <tr class="stk-row"><td style="text-align:left">BSANTANDER</td><td style="color:#969696;text-align:right">7,0%</td><td></td><td  style="text-align:center">-2,6%</td><td  style="text-align:center">+3,0%</td><td  style="text-align:center;font-weight:700">+5,0%</td><td></td><td class="pv" style="text-align:center">+7,9%</td><td class="pv" style="text-align:center">+5,5%</td></tr>
+          <!-- BCI: solo Compass OW -->
+          <tr class="stk-row"><td style="text-align:left">BCI</td><td style="color:#969696;text-align:right">7,1%</td><td></td><td  style="text-align:center">+2,4%</td><td  style="text-align:center">+1,5%</td><td  style="text-align:center">+4,3%</td><td></td><td class="pv" style="text-align:center">+0,5%</td><td class="pv" style="text-align:center">+3,1%</td></tr>
+          <!-- ITAUCL: solo Compass OW -->
+          <tr class="stk-row"><td style="text-align:left">ITAUCL</td><td style="color:#969696;text-align:right">2,0%</td><td></td><td  style="text-align:center">-0,8%</td><td  style="text-align:center">+1,8%</td><td  style="text-align:center">-1,7%</td><td></td><td class="pv" style="text-align:center">+4,3%</td><td class="nv" style="text-align:center">-8,7%</td></tr>
+          <!-- RETAIL: 3 fondos OW (T +2,2, BTG +5,6, C +5,6) -->
+          <tr class="sec-row"><td style="text-align:left">Retail</td><td style="text-align:right">12,1%</td><td></td><td style="text-align:center;color:#000">+1,7%</td><td style="text-align:center;color:#000;font-weight:700">+8,6%</td><td style="text-align:center;color:#000">+3,0%</td><td></td><td colspan="2"></td></tr>
+          <!-- FALABELLA: solo Toesca OW -->
+          <tr class="stk-row"><td style="text-align:left">FALABELLA</td><td style="color:#969696;text-align:right">7,1%</td><td></td><td  style="text-align:center">+3,1%</td><td  style="text-align:center">+1,8%</td><td  style="text-align:center">-1,1%</td><td></td><td class="pv" style="text-align:center">+1,4%</td><td class="nv" style="text-align:center">-5,9%</td></tr>
+          <!-- CENCOSUD: 2 fondos UW (T -3,9, C -3,9) -->
+          <tr class="stk-row"><td style="text-align:left">CENCOSUD</td><td style="color:#969696;text-align:right">3,9%</td><td></td><td  style="text-align:center">-3,9%</td><td  style="text-align:center">-0,5%</td><td  style="text-align:center">-3,9%</td><td></td><td class="pv" style="text-align:center">+1,3%</td><td class="nv" style="text-align:center">-26,5%</td></tr>
+          <!-- SMU: solo Compass OW -->
+          <tr class="stk-row"><td style="text-align:left">SMU</td><td style="color:#969696;text-align:right">0,5%</td><td></td><td  style="text-align:center">-0,5%</td><td  style="text-align:center">-0,5%</td><td  style="text-align:center;font-weight:700">+8,7%</td><td></td><td class="nv" style="text-align:center">-9,3%</td><td class="nv" style="text-align:center">-13,6%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">RIPLEY</td><td style="color:#969696;text-align:right">0,6%</td><td></td><td  style="text-align:center">+3,1%</td><td  style="text-align:center">+4,4%</td><td  style="text-align:center">-0,6%</td><td></td><td class="pv" style="text-align:center">+0,2%</td><td class="nv" style="text-align:center">-8,5%</td></tr>
+          <!-- RRNN: 3 fondos UW -->
+          <tr class="sec-row"><td style="text-align:left">RRNN</td><td style="text-align:right">15,2%</td><td></td><td style="text-align:center;color:#E07F5C">-1,5%</td><td style="text-align:center;color:#E07F5C">-2,1%</td><td style="text-align:center;color:#E07F5C;font-weight:700">-7,0%</td><td></td><td colspan="2"></td></tr>
+          <!-- SQM-B: 3 fondos UW -->
+          <tr class="stk-row"><td style="text-align:left">SQM-B</td><td style="color:#969696;text-align:right">14,5%</td><td></td><td  style="text-align:center;font-weight:700">-6,2%</td><td  style="text-align:center;font-weight:700">-8,6%</td><td  style="text-align:center;font-weight:700">-6,4%</td><td></td><td class="nv" style="text-align:center">-10,6%</td><td class="pv" style="text-align:center">+3,4%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">ORO BLANCO</td><td style="color:#969696;text-align:right">—</td><td></td><td  style="text-align:center;font-weight:700">+5,4%</td><td  style="text-align:center">+4,9%</td><td  style="text-align:center">0,0%</td><td></td><td class="nv" style="text-align:center">-6,7%</td><td class="pv" style="text-align:center">+17,4%</td></tr>
+          <!-- TRANSPORTE: 3 fondos OW -->
+          <tr class="sec-row"><td style="text-align:left">Transporte</td><td style="text-align:right">11,0%</td><td></td><td style="text-align:center;color:#000">+1,6%</td><td style="text-align:center;color:#000">+3,9%</td><td style="text-align:center;color:#000">+2,6%</td><td></td><td colspan="2"></td></tr>
+          <!-- LTM: 3 fondos OW -->
+          <tr class="stk-row"><td style="text-align:left">LTM</td><td style="color:#969696;text-align:right">10,1%</td><td></td><td  style="text-align:center">+2,6%</td><td  style="text-align:center">+4,8%</td><td  style="text-align:center">+3,5%</td><td></td><td class="pv" style="text-align:center">+12,0%</td><td class="pv" style="text-align:center">+10,6%</td></tr>
+          <!-- UTILITIES: Toesca +2,0 y Compass +5,3 OW (2 fondos) -->
+          <tr class="sec-row"><td style="text-align:left">Utilities</td><td style="text-align:right">9,7%</td><td></td><td style="text-align:center;color:#000">+0,6%</td><td style="text-align:center;color:#E07F5C;font-weight:700">-9,7%</td><td style="text-align:center;color:#000;font-weight:700">+7,0%</td><td></td><td colspan="2"></td></tr>
+          <!-- ENELCHILE: Toesca y Compass OW (2 fondos) -->
+          <tr class="stk-row"><td style="text-align:left">ENELCHILE</td><td style="color:#969696;text-align:right">2,9%</td><td></td><td  style="text-align:center">+3,9%</td><td  style="text-align:center">-2,9%</td><td  style="text-align:center">+1,3%</td><td></td><td class="pv" style="text-align:center">+6,1%</td><td class="pv" style="text-align:center">+9,9%</td></tr>
+          <!-- ECL: solo Toesca OW -->
+          <tr class="stk-row"><td style="text-align:left">ECL</td><td style="color:#969696;text-align:right">1,1%</td><td></td><td  style="text-align:center">+2,4%</td><td  style="text-align:center">-1,1%</td><td  style="text-align:center">-1,1%</td><td></td><td class="nv" style="text-align:center">-2,8%</td><td class="pv" style="text-align:center">+33,1%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">ENELAM</td><td style="color:#969696;text-align:right">2,3%</td><td></td><td  style="text-align:center">-2,3%</td><td  style="text-align:center">-2,3%</td><td  style="text-align:center">+2,9%</td><td></td><td class="pv" style="text-align:center">+5,9%</td><td class="nv" style="text-align:center">-4,3%</td></tr>
+          <!-- INMOBILIARIO: 3 fondos UW -->
+          <tr class="sec-row"><td style="text-align:left">Inmobiliario</td><td style="text-align:right">10,1%</td><td></td><td style="text-align:center;color:#E07F5C">-4,8%</td><td style="text-align:center;color:#E07F5C">-2,4%</td><td style="text-align:center;color:#E07F5C">-3,1%</td><td></td><td colspan="2"></td></tr>
+          <!-- MALLPLAZA: 3 fondos UW -->
+          <tr class="stk-row"><td style="text-align:left">MALLPLAZA</td><td style="color:#969696;text-align:right">4,3%</td><td></td><td  style="text-align:center">-3,9%</td><td  style="text-align:center">-4,3%</td><td  style="text-align:center">-4,3%</td><td></td><td class="nv" style="text-align:center">-1,7%</td><td class="pv" style="text-align:center">+18,2%</td></tr>
+          <!-- PARAUCO: solo BTG OW, Toesca y Compass divergen -->
+          <tr class="stk-row"><td style="text-align:left">PARAUCO</td><td style="color:#969696;text-align:right">4,1%</td><td></td><td  style="text-align:center">-1,1%</td><td  style="text-align:center">+1,5%</td><td  style="text-align:center">-4,1%</td><td></td><td class="nv" style="text-align:center">-0,6%</td><td class="pv" style="text-align:center">+29,8%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">CENCOMALLS</td><td style="color:#969696;text-align:right">1,7%</td><td></td><td  style="text-align:center">-1,7%</td><td  style="text-align:center">-1,5%</td><td  style="text-align:center;font-weight:700">+5,4%</td><td></td><td class="nv" style="text-align:center">-3,4%</td><td class="pv" style="text-align:center">+0,2%</td></tr>
+          <!-- BEBIDAS: solo Compass OW -->
+          <tr class="sec-row"><td style="text-align:left">Bebidas</td><td style="text-align:right">4,0%</td><td></td><td style="text-align:center;color:#E07F5C">-1,7%</td><td style="text-align:center;color:#000">+2,2%</td><td style="text-align:center;color:#000">+2,1%</td><td></td><td colspan="2"></td></tr>
+          <tr class="stk-row"><td style="text-align:left">CCU</td><td style="color:#969696;text-align:right">1,0%</td><td></td><td  style="text-align:center">-1,0%</td><td  style="text-align:center">-1,0%</td><td  style="text-align:center">-1,0%</td><td></td><td class="nv" style="text-align:center">-4,2%</td><td class="nv" style="text-align:center">-10,7%</td></tr>
+          <!-- CONCHATORO: BTG y Compass OW (2 fondos) -->
+          <tr class="stk-row"><td style="text-align:left">CONCHATORO</td><td style="color:#969696;text-align:right">0,6%</td><td></td><td  style="text-align:center">-0,6%</td><td  style="text-align:center">+3,2%</td><td  style="text-align:center">+4,8%</td><td></td><td class="nv" style="text-align:center">-4,3%</td><td class="nv" style="text-align:center">-16,1%</td></tr>
+          <!-- ANDINA-B: solo Toesca UW -->
+          <tr class="stk-row"><td style="text-align:left">ANDINA-B</td><td style="color:#969696;text-align:right">2,5%</td><td></td><td  style="text-align:center">-2,5%</td><td  style="text-align:center">0,0%</td><td  style="text-align:center">-1,7%</td><td></td><td class="pv" style="text-align:center">+1,1%</td><td class="pv" style="text-align:center">+9,2%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RESUMEN SECTORIAL (SOLO TOTALES) -->
+    <div class="sec">
+      <div class="st">
+        Resumen sectorial — OW/UW total por sector
+        <span class="st-note">Negro = positivo · Salmón = negativo</span>
+      </div>
+      <table class="ctb">
+        <colgroup><col style="width:18%"><col style="width:7%"><col style="width:2%"><col style="width:13%"><col style="width:13%"><col style="width:13%"></colgroup>
+        <thead><tr>
+          <th>Sector</th><th style="text-align:right">% IPSA</th><th></th><th style="text-align:center">Toesca</th><th style="text-align:center">Compass</th><th style="text-align:center">BTG</th>
+        </tr></thead>
+        <tbody>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Banco</td><td style="text-align:right;color:#969696">28,6%</td><td></td><td style="text-align:center;color:#000">0,0%</td><td style="text-align:center;color:#E07F5C;font-weight:700">-6,2%</td><td style="text-align:center;color:#E07F5C">-4,9%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Retail</td><td style="text-align:right;color:#969696">12,1%</td><td></td><td style="text-align:center;color:#000">+1,7%</td><td style="text-align:center;color:#000;font-weight:700">+8,6%</td><td style="text-align:center;color:#000">+3,0%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">RRNN</td><td style="text-align:right;color:#969696">15,2%</td><td></td><td style="text-align:center;color:#E07F5C">-1,5%</td><td style="text-align:center;color:#E07F5C">-2,1%</td><td style="text-align:center;color:#E07F5C;font-weight:700">-7,0%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Transporte</td><td style="text-align:right;color:#969696">11,0%</td><td></td><td style="text-align:center;color:#000">+1,6%</td><td style="text-align:center;color:#000">+3,9%</td><td style="text-align:center;color:#000">+2,6%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Utilities</td><td style="text-align:right;color:#969696">9,7%</td><td></td><td style="text-align:center;color:#000">+0,6%</td><td style="text-align:center;color:#E07F5C;font-weight:700">-9,7%</td><td style="text-align:center;color:#000;font-weight:700">+7,0%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Inmobiliario</td><td style="text-align:right;color:#969696">10,1%</td><td></td><td style="text-align:center;color:#E07F5C">-4,8%</td><td style="text-align:center;color:#E07F5C">-2,4%</td><td style="text-align:center;color:#E07F5C">-3,1%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Bebidas</td><td style="text-align:right;color:#969696">4,0%</td><td></td><td style="text-align:center;color:#E07F5C">-1,7%</td><td style="text-align:center;color:#000">+2,2%</td><td style="text-align:center;color:#000">+2,1%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- COMENTARIO -->
+    <div class="sec">
+      <div class="st">Comentario de cartera — junio 2025</div>
+      <div class="cmtbox">
+        <b>SQM-B (-9.4% MTD)</b>: UW compartido — decisión acertada. <b>LTM (-6.2%)</b>: OW compartido que no funcionó. Mayor divergencia en <b>Banco</b>: BTG y Compass UW, Toesca neutral.
+      </div>
+      <div class="cmtby">Comentario generado automáticamente — actualizar con visión del equipo</div>
+      <div style="margin-top:12px">
+        <div class="ii hi"><div class="iit">LTM — OW compartido, resultado negativo</div><div class="iib">OW +3,2% a +4,8%. MTD -6,2%.</div></div>
+        <div class="ii hi"><div class="iit">SQM-B — UW correcto</div><div class="iib">UW -4,9% a -7,8%. MTD -9,4%.</div></div>
+        <div class="ii me"><div class="iit">Compass — más diferenciada</div><div class="iib">SMU +8,8% OW, ITAUCL +7,1%.</div></div>
+        <div class="ii lo"><div class="iit">CHILE — UW de BTG y Compass penalizado</div><div class="iib">MTD +4,9%. BTG -10,2%, Compass -11,6%.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mp" id="panel-evo">
+    <div class="fund-tabs-evo" style="display:flex;gap:5px;margin-bottom:1rem">
+        <button class="tb active" onclick="spEvo('T',this)" style="font-size:11px;padding:5px 14px">Toesca</button>
+        <button class="tb" onclick="spEvo('C',this)" style="font-size:11px;padding:5px 14px">Compass</button>
+        <button class="tb" onclick="spEvo('B',this)" style="font-size:11px;padding:5px 14px">BTG Pactual</button>
+      </div>
+      <div id="evo-fund-panel">
+  
+  </div></div>
+  </div>
+
+</div></div>
+<script>
+const evoData = [
+  {sec:'Banco', rows:[
+    {n:'CHILE',      T:[{v:13.47},{v:13.14},{v:14.15}], B:[{v:null},{v:1.66},{v:4.45}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'BSANTANDER', T:[{v:4.4},{v:2.90},{v:3.07}],   B:[{v:9.97},{v:10.66},{v:13.28}],C:[{v:11.95},{v:10.29},{v:7.33}]},
+    {n:'BCI',        T:[{v:9.47},{v:9.44},{v:9.83}],   B:[{v:8.64},{v:8.24},{v:8.05}],  C:[{v:11.42},{v:12.00},{v:9.11}]},
+    {n:'ITAUCL',     T:[{v:1.18},{v:1.19},{v:1.25}],   B:[{v:3.81},{v:2.81},{v:1.28}],  C:[{v:0.31},{v:0.32},{v:0.34}]},
+  ]},
+  {sec:'Retail', rows:[
+    {n:'FALABELLA',  T:[{v:10.19},{v:10.60},{v:9.38}],  B:[{v:8.88},{v:8.94},{v:8.88}],  C:[{v:5.97},{v:9.06},{v:10.05}]},
+    {n:'CENCOSUD',   T:[{v:null},{v:null},{v:null}],   B:[{v:3.45},{v:2.87},{v:3.59}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'SMU',        T:[{v:null},{v:null},{v:null}],   B:[{v:null},{v:null},{v:null}],  C:[{v:9.2},{v:10.21},{v:8.41}]},
+    {n:'RIPLEY',     T:[{v:3.69},{v:3.87},{v:2.73}],   B:[{v:5.01},{v:4.26},{v:4.82}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'HITES',      T:[{v:null},{v:null},{v:null}],   B:[{v:2.27},{v:null},{v:null}],  C:[{v:null},{v:null},{v:null}]},
+  ]},
+  {sec:'RRNN', rows:[
+    {n:'SQM-B',      T:[{v:8.28},{v:8.58},{v:8.28}],   B:[{v:5.96},{v:10.49},{v:8.36}], C:[{v:8.16},{v:5.87},{v:7.80}]},
+    {n:'ORO BLANCO', T:[{v:5.39},{v:5.97},{v:6.32}],   B:[{v:4.93},{v:5.69},{v:5.37}],  C:[{v:null},{v:null},{v:null}]},
+  ]},
+  {sec:'Transporte', rows:[
+    {n:'LTM',        T:[{v:12.64},{v:14.08},{v:12.03}], B:[{v:14.91},{v:15.26},{v:14.67}],C:[{v:13.58},{v:12.56},{v:11.49}]},
+  ]},
+  {sec:'Utilities', rows:[
+    {n:'ENELCHILE',  T:[{v:6.78},{v:6.90},{v:6.81}],   B:[{v:null},{v:null},{v:null}],  C:[{v:4.2},{v:2.81},{v:4.92}]},
+    {n:'ENELAM',     T:[{v:null},{v:null},{v:null}],   B:[{v:null},{v:null},{v:null}],  C:[{v:5.16},{v:6.53},{v:6.85}]},
+    {n:'ECL',        T:[{v:3.55},{v:4.85},{v:5.05}],   B:[{v:null},{v:null},{v:null}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'AGUAS-A',    T:[{v:null},{v:null},{v:null}],   B:[{v:null},{v:null},{v:null}],  C:[{v:4.54},{v:4.80},{v:5.25}]},
+    {n:'COLBUN',     T:[{v:null},{v:null},{v:null}],   B:[{v:null},{v:null},{v:null}],  C:[{v:2.83},{v:null},{v:null}]},
+  ]},
+  {sec:'Inmobiliario', rows:[
+    {n:'PARAUCO',    T:[{v:3.03},{v:1.61},{v:1.54}],   B:[{v:5.67},{v:6.03},{v:5.71}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'CENCOMALLS', T:[{v:null},{v:null},{v:null}],   B:[{v:0.2},{v:null},{v:null}],  C:[{v:7.04},{v:5.16},{v:5.76}]},
+    {n:'MALLPLAZA',  T:[{v:0.44},{v:null},{v:0.47}],   B:[{v:null},{v:null},{v:0.31}],  C:[{v:null},{v:null},{v:null}]},
+  ]},
+  {sec:'Forestal', rows:[
+    {n:'COPEC',      T:[{v:4.26},{v:5.16},{v:6.14}],   B:[{v:2.91},{v:3.29},{v:3.71}],  C:[{v:0.3},{v:0.37},{v:0.64}]},
+    {n:'CMPC',       T:[{v:2.38},{v:1.81},{v:2.22}],   B:[{v:0.02},{v:0.02},{v:0.02}],  C:[{v:0.44},{v:0.51},{v:0.69}]},
+  ]},
+  {sec:'Bebidas', rows:[
+    {n:'CONCHATORO', T:[{v:null},{v:null},{v:0.27}],   B:[{v:3.74},{v:4.65},{v:5.43}],  C:[{v:5.35},{v:5.28},{v:5.19}]},
+    {n:'ANDINA-B',   T:[{v:null},{v:null},{v:null}],   B:[{v:2.49},{v:0.98},{v:null}],  C:[{v:0.76},{v:5.38},{v:6.68}]},
+  ]},
+  {sec:'Construcción', rows:[
+    {n:'SALFACORP',  T:[{v:null},{v:null},{v:null}],   B:[{v:null},{v:null},{v:null}],  C:[{v:4.78},{v:5.70},{v:5.74}]},
+    {n:'BESALCO',    T:[{v:null},{v:null},{v:null}],   B:[{v:1.93},{v:2.16},{v:0.07}],  C:[{v:null},{v:null},{v:null}]},
+  ]},
+  {sec:'Otros', rows:[
+    {n:'SK',         T:[{v:2.71},{v:2.87},{v:3.02}],   B:[{v:null},{v:null},{v:null}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'MOLLER',     T:[{v:1.88},{v:1.92},{v:2.00}],   B:[{v:null},{v:null},{v:null}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'SONDA',      T:[{v:null},{v:null},{v:null}],   B:[{v:2.01},{v:2.29},{v:1.96}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'INDISA',     T:[{v:null},{v:null},{v:null}],   B:[{v:1.15},{v:1.52},{v:1.56}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'MULTI X',    T:[{v:null},{v:null},{v:null}],   B:[{v:null},{v:null},{v:null}],  C:[{v:2.44},{v:2.79},{v:3.04}]},
+    {n:'NORTEGRAN',  T:[{v:null},{v:null},{v:null}],   B:[{v:0.79},{v:1.02},{v:1.01}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'MASISA',     T:[{v:null},{v:null},{v:null}],   B:[{v:null},{v:null},{v:null}],  C:[{v:0.27},{v:0.34},{v:0.34}]},
+    {n:'ABC',        T:[{v:null},{v:null},{v:null}],   B:[{v:1.09},{v:null},{v:null}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'PAZ',        T:[{v:null},{v:null},{v:null}],   B:[{v:0.99},{v:0.76},{v:0.92}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'LAS CONDES', T:[{v:null},{v:null},{v:null}],   B:[{v:0.92},{v:0.31},{v:0.18}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'WATTS',      T:[{v:1.0},{v:1.05},{v:1.11}],   B:[{v:null},{v:null},{v:null}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'EMBONOR-B',  T:[{v:1.33},{v:1.44},{v:1.51}],   B:[{v:null},{v:null},{v:null}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'ENTEL',      T:[{v:1.17},{v:1.23},{v:1.25}],   B:[{v:null},{v:null},{v:null}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'CAMANCHACA', T:[{v:0.81},{v:0.91},{v:0.95}],   B:[{v:null},{v:null},{v:null}],  C:[{v:null},{v:null},{v:null}]},
+    {n:'ITAUCL',     T:[{v:null},{v:null},{v:null}],   B:[{v:null},{v:null},{v:null}],  C:[{v:null},{v:null},{v:null}]},
+  ]},
+];
+const MONTHS = ['Jun 2026', 'May 2026', 'Abr 2026'];
+
+
+function fmtV(v){
+  if(v===null||v===undefined) return '<span style="color:#ccc">—</span>';
+  return `<span style="color:#1B2127">${v.toFixed(1)}%</span>`;
+}
+function fmtD(curr,prev){
+  if(curr===null||prev===null||curr===undefined||prev===undefined) return '<span style="color:#ccc">—</span>';
+  const d=curr-prev;
+  if(Math.abs(d)<0.05) return '<span style="color:#ccc">—</span>';
+  const cl=d>0?'#2E7D0A':'#B71C1C';
+  return `<span style="color:${cl};font-size:10px">${d>0?'▲':'▼'} ${Math.abs(d).toFixed(1)}%</span>`;
+}
+
+let activeFundEvo = 'T';
+
+function spEvo(fund, btn){
+  activeFundEvo = fund;
+  document.querySelectorAll('.fund-tabs-evo .tb').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderEvo();
+}
+
+function renderEvo(){
+  const fund = activeFundEvo;
+  const nM = MONTHS.length;
+  const hBg = '#5D7082';
+  const hSub = '#475765';
+  const fundNames = {T:'Toesca', B:'BTG Pactual', C:'Compass'};
+
+  // Build header
+  let headHTML = `<thead><tr>
+    <th style="background:${hBg};color:#fff;padding:7px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.04em;min-width:110px">${fundNames[fund]}</th>
+    <th style="background:${hBg};color:#fff;padding:5px 10px;text-align:center;font-size:10px;font-weight:400;min-width:65px">Δ</th>`;
+  MONTHS.forEach(m=>{
+    headHTML+=`<th style="background:${hBg};color:#fff;padding:5px 10px;text-align:right;font-size:10px;font-weight:400;min-width:80px">${m}</th>`;
+  });
+  headHTML+=`</tr></thead>`;
+
+  // Build body
+  const secSt='background:#fff;font-weight:700;font-size:11px;color:#1B2127;padding:5px 10px;border-bottom:2px solid #7BC143';
+  const stkSt='font-size:11px;color:#1B2127;padding:5px 10px;border-bottom:1px solid #F0F0F0';
+  const tdV='padding:5px 10px;text-align:right;border-bottom:1px solid #F0F0F0;font-size:11px;font-variant-numeric:tabular-nums';
+  const tdD='padding:5px 10px;text-align:center;border-bottom:1px solid #F0F0F0;font-size:11px';
+
+  let bodyHTML = '';
+  const totalCols = 1 + nM + 1;
+
+  evoData.forEach(sec=>{
+    // Check if this sector has any data for this fund
+    const hasData = sec.rows.some(r=> r[fund] && r[fund].some(v=>v&&v.v!==null));
+    if(!hasData) return;
+
+    bodyHTML+=`<tr><td colspan="${totalCols}" style="${secSt}">${sec.sec}</td></tr>`;
+    sec.rows.forEach((r,ri)=>{
+      const fd = r[fund];
+      // Only show if fund has this stock in at least one month
+      const hasStock = fd && fd.some(v=>v&&v.v!==null);
+      if(!hasStock) return;
+
+      const bg = ri%2===0?'#fff':'#FAFAFA';
+      const cur = fd&&fd[0]?fd[0].v:null;
+      const prev = fd&&fd[1]?fd[1].v:null;
+      let row = `<tr style="background:${bg}"><td style="${stkSt}">${r.n}</td>`;
+      row+=`<td style="${tdD}">${fmtD(cur,prev)}</td>`;
+      for(let mi=0;mi<nM;mi++){
+        const v = fd&&fd[mi]?fd[mi].v:null;
+        row+=`<td style="${tdV}">${fmtV(v)}</td>`;
+      }
+      row+='</tr>';
+      bodyHTML+=row;
+    });
+  });
+
+  const el = document.getElementById('evo-fund-panel');
+  if(el) el.innerHTML=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;table-layout:fixed">${headHTML}<tbody>${bodyHTML}</tbody></table></div><div style="font-size:10px;color:var(--sl);font-style:italic;margin-top:6px;padding:0 4px">△ = variación entre Jun 2026 y May 2026</div>`;
+}
+
+function sp(id,btn){
+  document.querySelectorAll('.mp').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tb,.tbg').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='evo') renderEvo();
+}
+function dlHTML(){
+  const s=Array.from(document.querySelectorAll('style')).map(x=>x.outerHTML).join('');
+  const b=document.querySelector('.w').outerHTML;
+  const sc='<script>'+document.querySelector('script').textContent+'<\/script>';
+  const html='<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Cartera Tracker — RV Chile</title>'+s+'</head><body style="background:#f5f5f5;min-height:100vh;display:flex;justify-content:center;padding:2rem 1rem"><div style="max-width:960px;width:100%;background:#fff;border-radius:10px;padding:2rem 2rem 2.5rem;box-shadow:0 1px 4px rgba(0,0,0,.08)">'+b+'</div>'+sc+'</body></html>';
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+  a.download='cartera-tracker.html';
+  a.click();
+}
+
+</script>
+</body>
+</html>
