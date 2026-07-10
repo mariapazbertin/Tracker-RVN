@@ -24,6 +24,7 @@
     .tbg:hover{background:var(--g4)}
     .tbg.active{background:var(--g);border-color:var(--g);color:#fff;font-weight:700}
     .mp{display:none}.mp.active{display:block}
+    .mp-archive{display:none}.mp-archive.active{display:block}
     .tr{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:10px}
     .mc{background:var(--cb);border-radius:6px;padding:10px;border:1px solid #d4d4d4}
     .ml{font-size:9px;color:var(--sl);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:300}
@@ -103,16 +104,25 @@
     <h2>Cartera Tracker — RV Chile</h2>
     <div style="text-align:right;color:var(--gr3);font-size:11px;line-height:1.5">
       <div style="letter-spacing:.05em">INFORMACIÓN PÚBLICA</div>
-      <div>Actualizado: 09-07-2026</div>
+      <div>Actualizado: 10-07-2026</div>
     </div>
   </div>
 
   <div class="tabs">
-    <button class="tb active" onclick="sp('jun',this)">Jun 2026</button>
+    <button class="tb active" onclick="sp('jul',this)">Jul 2026</button>
     <button class="tbg" onclick="sp('evo',this)">Evolución</button>
+    <button class="tb" onclick="sp('archive',this)">Meses anteriores</button>
   </div>
 
-  <div class="mp active" id="panel-jun">
+  <div class="mp" id="panel-archive">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.2rem">
+      <span style="font-size:11px;color:var(--sl);font-weight:700">Mes:</span>
+      <select id="archiveSelect" onchange="showArchiveMonth(this.value)" style="font-size:12px;padding:5px 10px;border:1px solid var(--gr3);border-radius:4px;background:#fff;color:#000">
+        <option value="jun">Jun 2026</option>
+      </select>
+    </div>
+
+  <div class="mp-archive active" id="panel-jun">
     <table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:1.5rem">
       <thead><tr>
         <th style="background:var(--sl);color:#fff;padding:6px 10px;text-align:left;width:18%;font-size:10px;text-transform:uppercase;letter-spacing:.04em"></th>
@@ -356,6 +366,251 @@
       </div>
     </div>
   </div>
+  </div>
+
+    <div class="mp" id="panel-jul">
+    <table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:1.5rem">
+      <thead><tr>
+        <th style="background:var(--sl);color:#fff;padding:6px 10px;text-align:left;width:18%;font-size:10px;text-transform:uppercase;letter-spacing:.04em"></th>
+        <th style="background:var(--sl);color:#fff;padding:6px 10px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:.04em">Retorno MTD</th>
+        <th style="background:var(--sl);color:#fff;padding:6px 10px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:.04em">Retorno YTD</th>
+        <th style="background:var(--sl);color:#fff;padding:6px 10px;text-align:right;font-size:10px;text-transform:uppercase;letter-spacing:.04em">Alpha (YTD)</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td style="padding:6px 10px;font-weight:700;border-bottom:2px solid var(--g)">IPSA</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:2px solid var(--g);color:#000">+1,5%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:2px solid var(--g);color:#000">+3,8%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:2px solid var(--g);color:#ccc">—</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 10px;font-weight:700;border-bottom:1px solid var(--gr4)">Toesca</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#000">+1,4%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#000">+5,8%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#000">+2,0%</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 10px;font-weight:700;border-bottom:1px solid var(--gr4)">Compass</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#000">+0,7%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#000">+6,1%</td>
+          <td style="padding:6px 10px;text-align:right;border-bottom:1px solid var(--gr4);color:#000">+2,3%</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 10px;font-weight:700">BTG</td>
+          <td style="padding:6px 10px;text-align:right;color:#000">+1,1%</td>
+          <td style="padding:6px 10px;text-align:right;color:#000">+4,3%</td>
+          <td style="padding:6px 10px;text-align:right;color:#000">+0,5%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sec">
+      <div class="st">
+        Top posiciones activas por fondo
+        <span class="st-note">Verde = OW compartido por los 3 fondos · Naranja = UW compartido · OW/UW = peso fondo − peso IPSA</span>
+      </div>
+      <div class="fg">
+
+                <div class="fc"><table>
+          <colgroup><col style="width:35%"><col style="width:21%"><col style="width:22%"><col style="width:22%"></colgroup>
+          <tr class="fth"><td>Toesca</td><td>% IPSA</td><td>OW/UW</td><td>MTD</td></tr>
+          <tr class="ow-r com"><td><span class="fname">ORO BLANCO</span></td><td class="fipsa">—</td><td class="pv" style="font-weight:700">+5,4%</td><td class="nv">-2,0%</td></tr>
+          <tr class="ow-r"><td><span class="fname">ENELCHILE</span></td><td class="fipsa">2,8%</td><td class="pv">+4,0%</td><td class="pv">+1,1%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">LTM</span></td><td class="fipsa">9,1%</td><td class="pv">+3,6%</td><td class="nv">-2,6%</td></tr>
+          <tr class="ow-r"><td><span class="fname">FALABELLA</span></td><td class="fipsa">7,0%</td><td class="pv">+3,2%</td><td class="pv">+4,2%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">RIPLEY</span></td><td class="fipsa">0,6%</td><td class="pv">+3,1%</td><td class="nv">-0,6%</td></tr>
+          <tr class="ow-r"><td><span class="fname">SK</span></td><td class="fipsa">—</td><td class="pv">+2,7%</td><td class="nv">-1,4%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">BCI</span></td><td class="fipsa">7,0%</td><td class="pv">+2,4%</td><td class="pv">+3,1%</td></tr>
+          <tr class="sep-r"><td colspan="4"></td></tr>
+          <tr class="uw-r com"><td><span class="fname">SQM-B</span></td><td class="fipsa">16,2%</td><td class="nv" style="font-weight:700">-8,0%</td><td class="nv">-0,8%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">MALLPLAZA</span></td><td class="fipsa">4,4%</td><td class="nv">-4,0%</td><td class="pv">+4,7%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">CENCOSUD</span></td><td class="fipsa">3,9%</td><td class="nv">-3,9%</td><td class="nv">-2,4%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">ANDINA-B</span></td><td class="fipsa">2,4%</td><td class="nv">-2,4%</td><td class="nv">-0,6%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">ENELAM</span></td><td class="fipsa">2,2%</td><td class="nv">-2,2%</td><td class="pv">+1,9%</td></tr>
+          <tr class="uw-r"><td><span class="fname">BSANTANDER</span></td><td class="fipsa">6,5%</td><td class="nv">-2,1%</td><td class="pv">+4,2%</td></tr>
+          <tr class="uw-r"><td><span class="fname">CENCOMALLS</span></td><td class="fipsa">1,7%</td><td class="nv">-1,7%</td><td class="nv">-3,2%</td></tr>
+        </table></div>
+
+        <div class="fc"><table>
+          <colgroup><col style="width:35%"><col style="width:21%"><col style="width:22%"><col style="width:22%"></colgroup>
+          <tr class="fth"><td>Compass</td><td>% IPSA</td><td>OW/UW</td><td>MTD</td></tr>
+          <tr class="ow-r"><td><span class="fname">SMU</span></td><td class="fipsa">0,5%</td><td class="pv" style="font-weight:700">+8,6%</td><td class="pv">+0,2%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">BSANTANDER</span></td><td class="fipsa">6,5%</td><td class="pv" style="font-weight:700">+5,5%</td><td class="pv">+4,2%</td></tr>
+          <tr class="ow-r"><td><span class="fname">CENCOMALLS</span></td><td class="fipsa">1,7%</td><td class="pv" style="font-weight:700">+5,3%</td><td class="nv">-3,2%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">CONCHATORO</span></td><td class="fipsa">0,6%</td><td class="pv">+4,8%</td><td class="nv">-0,4%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">LTM</span></td><td class="fipsa">9,1%</td><td class="pv">+4,5%</td><td class="nv">-2,6%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">BCI</span></td><td class="fipsa">7,0%</td><td class="pv">+4,4%</td><td class="pv">+3,1%</td></tr>
+          <tr class="ow-r"><td><span class="fname">SALFACORP</span></td><td class="fipsa">0,8%</td><td class="pv">+3,9%</td><td class="pv">+1,6%</td></tr>
+          <tr class="sep-r"><td colspan="4"></td></tr>
+          <tr class="uw-r com"><td><span class="fname">CHILE</span></td><td class="fipsa">11,6%</td><td class="nv" style="font-weight:700">-11,6%</td><td class="pv">+4,1%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">SQM-B</span></td><td class="fipsa">16,2%</td><td class="nv" style="font-weight:700">-8,1%</td><td class="nv">-0,8%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">MALLPLAZA</span></td><td class="fipsa">4,4%</td><td class="nv">-4,4%</td><td class="pv">+4,7%</td></tr>
+          <tr class="uw-r"><td><span class="fname">PARAUCO</span></td><td class="fipsa">3,9%</td><td class="nv">-3,9%</td><td class="pv">+1,8%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">CENCOSUD</span></td><td class="fipsa">3,9%</td><td class="nv">-3,9%</td><td class="nv">-2,4%</td></tr>
+          <tr class="uw-r"><td><span class="fname">COPEC</span></td><td class="fipsa">3,4%</td><td class="nv">-3,1%</td><td class="pv">+4,3%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">ANDINA-B</span></td><td class="fipsa">2,4%</td><td class="nv">-1,7%</td><td class="nv">-0,6%</td></tr>
+        </table></div>
+
+        <div class="fc"><table>
+          <colgroup><col style="width:35%"><col style="width:21%"><col style="width:22%"><col style="width:22%"></colgroup>
+          <tr class="fth"><td>BTG Pactual</td><td>% IPSA</td><td>OW/UW</td><td>MTD</td></tr>
+          <tr class="ow-r com"><td><span class="fname">LTM</span></td><td class="fipsa">9,1%</td><td class="pv" style="font-weight:700">+5,8%</td><td class="nv">-2,6%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">ORO BLANCO</span></td><td class="fipsa">—</td><td class="pv">+4,9%</td><td class="nv">-2,0%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">RIPLEY</span></td><td class="fipsa">0,6%</td><td class="pv">+4,4%</td><td class="nv">-0,6%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">BSANTANDER</span></td><td class="fipsa">6,5%</td><td class="pv">+3,5%</td><td class="pv">+4,2%</td></tr>
+          <tr class="ow-r com"><td><span class="fname">CONCHATORO</span></td><td class="fipsa">0,6%</td><td class="pv">+3,2%</td><td class="nv">-0,4%</td></tr>
+          <tr class="ow-r"><td><span class="fname">HITES</span></td><td class="fipsa">—</td><td class="pv">+2,3%</td><td class="pv">+0,8%</td></tr>
+          <tr class="ow-r"><td><span class="fname">SONDA</span></td><td class="fipsa">—</td><td class="pv">+2,0%</td><td class="pv">+10,3%</td></tr>
+          <tr class="sep-r"><td colspan="4"></td></tr>
+          <tr class="uw-r com"><td><span class="fname">CHILE</span></td><td class="fipsa">11,6%</td><td class="nv" style="font-weight:700">-11,6%</td><td class="pv">+4,1%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">SQM-B</span></td><td class="fipsa">16,2%</td><td class="nv" style="font-weight:700">-10,3%</td><td class="nv">-0,8%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">MALLPLAZA</span></td><td class="fipsa">4,4%</td><td class="nv">-4,4%</td><td class="pv">+4,7%</td></tr>
+          <tr class="uw-r"><td><span class="fname">ENELCHILE</span></td><td class="fipsa">2,8%</td><td class="nv">-2,8%</td><td class="pv">+1,1%</td></tr>
+          <tr class="uw-r com"><td><span class="fname">ENELAM</span></td><td class="fipsa">2,2%</td><td class="nv">-2,2%</td><td class="pv">+1,9%</td></tr>
+          <tr class="uw-r"><td><span class="fname">CMPC</span></td><td class="fipsa">1,7%</td><td class="nv">-1,7%</td><td class="pv">+5,0%</td></tr>
+          <tr class="uw-r"><td><span class="fname">QUINENCO</span></td><td class="fipsa">1,6%</td><td class="nv">-1,6%</td><td class="pv">+1,6%</td></tr>
+        </table></div>
+
+      </div>
+
+      <div class="leg">
+        <span class="ls"><span class="lsq" style="background:#F0F8E8;border:1px solid #B3D88C"></span>OW compartido por los 3 fondos</span>
+        <span class="ls"><span class="lsq" style="background:#FDF2EF;border:1px solid #F5C4B3"></span>UW compartido por los 3 fondos</span>
+        <span class="ls"><span class="lsq" style="background:#fff;border:1px solid #E6E6E6"></span>Solo ese fondo</span>
+      </div>
+    </div>
+
+    <!-- COMPARATIVO -->
+    <div class="sec">
+      <div class="st">
+        Comparativo sectorial — OW/UW sectorial — rentabilidad
+        <span class="st-note">Verde = 2+ fondos OW · Naranja = 2+ fondos UW</span>
+      </div>
+      <table class="ctb">
+        <colgroup><col style="width:18%"><col style="width:7%"><col style="width:2%"><col style="width:13%"><col style="width:13%"><col style="width:13%"><col style="width:2%"><col style="width:16%"><col style="width:16%"></colgroup>
+        <thead><tr>
+          <th>Sector / Acción</th><th style="text-align:right">% IPSA</th><th></th><th style="text-align:center">Toesca</th><th style="text-align:center">Compass</th><th style="text-align:center">BTG</th><th></th><th style="text-align:center">MTD</th><th style="text-align:center">YTD</th>
+        </tr></thead>
+        <tbody>
+          <tr class="sec-row"><td style="text-align:left">Banco</td><td style="text-align:right">27,1%</td><td></td><td style="text-align:center;color:#000">+1,4%</td><td style="text-align:center;color:#E07F5C">-3,4%</td><td style="text-align:center;color:#E07F5C">-4,7%</td><td></td><td colspan="2"></td></tr>
+          <tr class="stk-row"><td style="text-align:left">CHILE</td><td style="color:#969696;text-align:right">11,6%</td><td></td><td  style="text-align:center">+1,9%</td><td  style="text-align:center">-11,6%</td><td  style="text-align:center">-11,6%</td><td></td><td class="pv" style="text-align:center">+4,1%</td><td class="pv" style="text-align:center">+4,9%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">BSANTANDER</td><td style="color:#969696;text-align:right">6,5%</td><td></td><td  style="text-align:center">-2,1%</td><td  style="text-align:center">+5,5%</td><td  style="text-align:center">+3,5%</td><td></td><td class="pv" style="text-align:center">+4,2%</td><td class="pv" style="text-align:center">+8,2%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">BCI</td><td style="color:#969696;text-align:right">7,0%</td><td></td><td  style="text-align:center">+2,4%</td><td  style="text-align:center">+4,4%</td><td  style="text-align:center">+1,6%</td><td></td><td class="pv" style="text-align:center">+3,1%</td><td class="pv" style="text-align:center">+3,8%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">ITAUCL</td><td style="color:#969696;text-align:right">1,9%</td><td></td><td  style="text-align:center">-0,7%</td><td  style="text-align:center">-1,6%</td><td  style="text-align:center">+1,9%</td><td></td><td class="pv" style="text-align:center">+7,6%</td><td class="nv" style="text-align:center">-1,0%</td></tr>
+          <tr class="sec-row"><td style="text-align:left">Retail</td><td style="text-align:right">12,1%</td><td></td><td style="text-align:center;color:#000">+1,8%</td><td style="text-align:center;color:#000">+3,1%</td><td style="text-align:center;color:#000">+8,6%</td><td></td><td colspan="2"></td></tr>
+          <tr class="stk-row"><td style="text-align:left">FALABELLA</td><td style="color:#969696;text-align:right">7,0%</td><td></td><td  style="text-align:center">+3,2%</td><td  style="text-align:center">-1,1%</td><td  style="text-align:center">+1,8%</td><td></td><td class="pv" style="text-align:center">+4,2%</td><td class="nv" style="text-align:center">-8,0%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">CENCOSUD</td><td style="color:#969696;text-align:right">3,9%</td><td></td><td  style="text-align:center">-3,9%</td><td  style="text-align:center">-3,9%</td><td  style="text-align:center">-0,4%</td><td></td><td class="nv" style="text-align:center">-2,4%</td><td class="nv" style="text-align:center">-27,6%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">SMU</td><td style="color:#969696;text-align:right">0,5%</td><td></td><td  style="text-align:center">-0,5%</td><td  style="text-align:center">+8,6%</td><td  style="text-align:center">-0,5%</td><td></td><td class="pv" style="text-align:center">+0,2%</td><td class="nv" style="text-align:center">-11,7%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">RIPLEY</td><td style="color:#969696;text-align:right">0,6%</td><td></td><td  style="text-align:center">+3,1%</td><td  style="text-align:center">-0,6%</td><td  style="text-align:center">+4,4%</td><td></td><td class="nv" style="text-align:center">-0,6%</td><td class="nv" style="text-align:center">-10,4%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">HITES</td><td style="color:#969696;text-align:right">—</td><td></td><td  style="text-align:center">0,0%</td><td  style="text-align:center">0,0%</td><td  style="text-align:center">+2,3%</td><td></td><td class="pv" style="text-align:center">+0,8%</td><td class="pv" style="text-align:center">+3,5%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">ABC</td><td style="color:#969696;text-align:right">—</td><td></td><td  style="text-align:center">0,0%</td><td  style="text-align:center">0,0%</td><td  style="text-align:center">+1,1%</td><td></td><td style="text-align:center;color:#969696">—</td><td style="text-align:center;color:#969696">—</td></tr>
+          <tr class="sec-row"><td style="text-align:left">RRNN</td><td style="text-align:right">16,9%</td><td></td><td style="text-align:center;color:#E07F5C">-3,2%</td><td style="text-align:center;color:#E07F5C">-8,8%</td><td style="text-align:center;color:#E07F5C">-3,8%</td><td></td><td colspan="2"></td></tr>
+          <tr class="stk-row"><td style="text-align:left">SQM-B</td><td style="color:#969696;text-align:right">16,2%</td><td></td><td  style="text-align:center">-8,0%</td><td  style="text-align:center">-8,1%</td><td  style="text-align:center">-10,3%</td><td></td><td class="nv" style="text-align:center">-0,8%</td><td class="pv" style="text-align:center">+7,0%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">ORO BLANCO</td><td style="color:#969696;text-align:right">—</td><td></td><td  style="text-align:center">+5,4%</td><td  style="text-align:center">0,0%</td><td  style="text-align:center">+4,9%</td><td></td><td class="nv" style="text-align:center">-2,0%</td><td class="pv" style="text-align:center">+20,6%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">CAP</td><td style="color:#969696;text-align:right">0,7%</td><td></td><td  style="text-align:center">-0,7%</td><td  style="text-align:center">-0,7%</td><td  style="text-align:center">+0,7%</td><td></td><td class="nv" style="text-align:center">-2,1%</td><td class="nv" style="text-align:center">-15,8%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">NORTEGRAN</td><td style="color:#969696;text-align:right">—</td><td></td><td  style="text-align:center">0,0%</td><td  style="text-align:center">0,0%</td><td  style="text-align:center">+0,8%</td><td></td><td class="nv" style="text-align:center">-1,4%</td><td class="pv" style="text-align:center">+26,0%</td></tr>
+          <tr class="sec-row"><td style="text-align:left">Transporte</td><td style="text-align:right">10,0%</td><td></td><td style="text-align:center;color:#000">+2,6%</td><td style="text-align:center;color:#000">+3,6%</td><td style="text-align:center;color:#000">+4,9%</td><td></td><td colspan="2"></td></tr>
+          <tr class="stk-row"><td style="text-align:left">LTM</td><td style="color:#969696;text-align:right">9,1%</td><td></td><td  style="text-align:center">+3,6%</td><td  style="text-align:center">+4,5%</td><td  style="text-align:center">+5,8%</td><td></td><td class="nv" style="text-align:center">-2,6%</td><td class="pv" style="text-align:center">+7,8%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">VAPORES</td><td style="color:#969696;text-align:right">0,9%</td><td></td><td  style="text-align:center">-0,9%</td><td  style="text-align:center">-0,9%</td><td  style="text-align:center">-0,9%</td><td></td><td class="pv" style="text-align:center">+4,7%</td><td class="nv" style="text-align:center">-2,0%</td></tr>
+          <tr class="sec-row"><td style="text-align:left">Utilities</td><td style="text-align:right">9,6%</td><td></td><td style="text-align:center;color:#000">+0,7%</td><td style="text-align:center;color:#000">+7,1%</td><td style="text-align:center;color:#E07F5C">-9,6%</td><td></td><td colspan="2"></td></tr>
+          <tr class="stk-row"><td style="text-align:left">ENELCHILE</td><td style="color:#969696;text-align:right">2,8%</td><td></td><td  style="text-align:center">+4,0%</td><td  style="text-align:center">+1,4%</td><td  style="text-align:center">-2,8%</td><td></td><td class="pv" style="text-align:center">+1,1%</td><td class="pv" style="text-align:center">+9,5%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">ECL</td><td style="color:#969696;text-align:right">1,2%</td><td></td><td  style="text-align:center">+2,4%</td><td  style="text-align:center">-1,2%</td><td  style="text-align:center">-1,2%</td><td></td><td class="pv" style="text-align:center">+0,4%</td><td class="pv" style="text-align:center">+34,7%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">ENELAM</td><td style="color:#969696;text-align:right">2,2%</td><td></td><td  style="text-align:center">-2,2%</td><td  style="text-align:center">+3,0%</td><td  style="text-align:center">-2,2%</td><td></td><td class="pv" style="text-align:center">+1,9%</td><td class="nv" style="text-align:center">-3,2%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">COLBUN</td><td style="color:#969696;text-align:right">1,4%</td><td></td><td  style="text-align:center">-1,4%</td><td  style="text-align:center">+1,4%</td><td  style="text-align:center">-1,4%</td><td></td><td class="nv" style="text-align:center">-2,1%</td><td class="nv" style="text-align:center">-9,5%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">AGUAS-A</td><td style="color:#969696;text-align:right">1,4%</td><td></td><td  style="text-align:center">-1,4%</td><td  style="text-align:center">+3,2%</td><td  style="text-align:center">-1,4%</td><td></td><td class="pv" style="text-align:center">+1,6%</td><td class="nv" style="text-align:center">-9,8%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">IAM</td><td style="color:#969696;text-align:right">0,7%</td><td></td><td  style="text-align:center">-0,7%</td><td  style="text-align:center">-0,7%</td><td  style="text-align:center">-0,7%</td><td></td><td class="nv" style="text-align:center">-0,2%</td><td class="nv" style="text-align:center">-9,7%</td></tr>
+          <tr class="sec-row"><td style="text-align:left">Forestal</td><td style="text-align:right">5,2%</td><td></td><td style="text-align:center;color:#000">+1,5%</td><td style="text-align:center;color:#E07F5C">-4,2%</td><td style="text-align:center;color:#E07F5C">-2,3%</td><td></td><td colspan="2"></td></tr>
+          <tr class="stk-row"><td style="text-align:left">COPEC</td><td style="color:#969696;text-align:right">3,4%</td><td></td><td  style="text-align:center">+0,8%</td><td  style="text-align:center">-3,1%</td><td  style="text-align:center">-0,5%</td><td></td><td class="pv" style="text-align:center">+4,3%</td><td class="nv" style="text-align:center">-16,7%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">CMPC</td><td style="color:#969696;text-align:right">1,7%</td><td></td><td  style="text-align:center">+0,6%</td><td  style="text-align:center">-1,3%</td><td  style="text-align:center">-1,7%</td><td></td><td class="pv" style="text-align:center">+5,0%</td><td class="nv" style="text-align:center">-26,0%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">MASISA</td><td style="color:#969696;text-align:right">—</td><td></td><td  style="text-align:center">0,0%</td><td  style="text-align:center">+0,3%</td><td  style="text-align:center">0,0%</td><td></td><td class="pv" style="text-align:center">+2,1%</td><td class="nv" style="text-align:center">-46,7%</td></tr>
+          <tr class="sec-row"><td style="text-align:left">Inmobiliario</td><td style="text-align:right">10,0%</td><td></td><td style="text-align:center;color:#E07F5C">-4,7%</td><td style="text-align:center;color:#E07F5C">-3,0%</td><td style="text-align:center;color:#E07F5C">-2,3%</td><td></td><td colspan="2"></td></tr>
+          <tr class="stk-row"><td style="text-align:left">MALLPLAZA</td><td style="color:#969696;text-align:right">4,4%</td><td></td><td  style="text-align:center">-4,0%</td><td  style="text-align:center">-4,4%</td><td  style="text-align:center">-4,4%</td><td></td><td class="pv" style="text-align:center">+4,7%</td><td class="pv" style="text-align:center">+20,8%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">PARAUCO</td><td style="color:#969696;text-align:right">3,9%</td><td></td><td  style="text-align:center">-0,8%</td><td  style="text-align:center">-3,9%</td><td  style="text-align:center">+1,8%</td><td></td><td class="pv" style="text-align:center">+1,8%</td><td class="pv" style="text-align:center">+32,2%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">CENCOMALLS</td><td style="color:#969696;text-align:right">1,7%</td><td></td><td  style="text-align:center">-1,7%</td><td  style="text-align:center">+5,3%</td><td  style="text-align:center">-1,5%</td><td></td><td class="nv" style="text-align:center">-3,2%</td><td class="nv" style="text-align:center">-1,1%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">MOLLER</td><td style="color:#969696;text-align:right">—</td><td></td><td  style="text-align:center">+1,9%</td><td  style="text-align:center">0,0%</td><td  style="text-align:center">0,0%</td><td></td><td class="nv" style="text-align:center">-0,5%</td><td class="nv" style="text-align:center">-1,6%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">PAZ</td><td style="color:#969696;text-align:right">—</td><td></td><td  style="text-align:center">0,0%</td><td  style="text-align:center">0,0%</td><td  style="text-align:center">+1,0%</td><td></td><td style="text-align:center;color:#969696">—</td><td style="text-align:center;color:#969696">—</td></tr>
+          <tr class="stk-row"><td style="text-align:left">SOCOVESA</td><td style="color:#969696;text-align:right">—</td><td></td><td  style="text-align:center">0,0%</td><td  style="text-align:center">0,0%</td><td  style="text-align:center">+0,9%</td><td></td><td class="pv" style="text-align:center">+4,1%</td><td class="pv" style="text-align:center">+5,4%</td></tr>
+          <tr class="sec-row"><td style="text-align:left">Bebidas</td><td style="text-align:right">4,0%</td><td></td><td style="text-align:center;color:#E07F5C">-1,7%</td><td style="text-align:center;color:#000">+2,1%</td><td style="text-align:center;color:#000">+2,2%</td><td></td><td colspan="2"></td></tr>
+          <tr class="stk-row"><td style="text-align:left">CCU</td><td style="color:#969696;text-align:right">1,0%</td><td></td><td  style="text-align:center">-1,0%</td><td  style="text-align:center">-1,0%</td><td  style="text-align:center">-1,0%</td><td></td><td class="pv" style="text-align:center">+2,8%</td><td class="nv" style="text-align:center">-10,5%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">CONCHATORO</td><td style="color:#969696;text-align:right">0,6%</td><td></td><td  style="text-align:center">-0,6%</td><td  style="text-align:center">+4,8%</td><td  style="text-align:center">+3,2%</td><td></td><td class="nv" style="text-align:center">-0,4%</td><td class="nv" style="text-align:center">-16,2%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">ANDINA-B</td><td style="color:#969696;text-align:right">2,4%</td><td></td><td  style="text-align:center">-2,4%</td><td  style="text-align:center">-1,7%</td><td  style="text-align:center">0,0%</td><td></td><td class="nv" style="text-align:center">-0,6%</td><td class="pv" style="text-align:center">+8,8%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">EMBONOR-B</td><td style="color:#969696;text-align:right">—</td><td></td><td  style="text-align:center">+1,3%</td><td  style="text-align:center">0,0%</td><td  style="text-align:center">0,0%</td><td></td><td class="nv" style="text-align:center">-0,6%</td><td class="nv" style="text-align:center">-0,1%</td></tr>
+          <tr class="stk-row"><td style="text-align:left">WATTS</td><td style="color:#969696;text-align:right">—</td><td></td><td  style="text-align:center">+1,0%</td><td  style="text-align:center">0,0%</td><td  style="text-align:center">0,0%</td><td></td><td class="pv" style="text-align:center">0,0%</td><td class="pv" style="text-align:center">+16,2%</td></tr>
+          <tr class="sec-row"><td style="text-align:left">Otros</td><td style="text-align:right">5,1%</td><td></td><td></td><td></td><td></td><td></td><td colspan="2"></td></tr>
+          <tr class="stk-row"><td style="text-align:left">Otros (no trackeados + caja)</td><td style="color:#969696;text-align:right">5,1%</td><td></td>
+            <td style="text-align:center">
+              <span class="tt-wrap">+1,5%
+                <div class="tt-box">
+                  <div class="tt-title">Toesca — Otros</div>
+                  <div class="tt-row"><span class="tt-lbl ok">Tiene:</span> ENTEL <b>1,2%</b>, SK <b>2,7%</b>, CAMANCHACA <b>0,8%</b></div>
+                  <div class="tt-row"><span class="tt-lbl ok">Caja:</span> <b>~1,9%</b></div>
+                </div>
+              </span>
+            </td>
+            <td style="text-align:center">
+              <span class="tt-wrap">+3,5%
+                <div class="tt-box">
+                  <div class="tt-title">Compass — Otros</div>
+                  <div class="tt-row"><span class="tt-lbl ok">Tiene:</span> SALFACORP <b>4,8%</b>, MULTI X <b>2,4%</b></div>
+                  <div class="tt-row"><span class="tt-lbl ok">Caja:</span> <b>~1,3%</b></div>
+                </div>
+              </span>
+            </td>
+            <td style="text-align:center">
+              <span class="tt-wrap">+6,9%
+                <div class="tt-box">
+                  <div class="tt-title">BTG — Otros</div>
+                  <div class="tt-row"><span class="tt-lbl ok">Tiene:</span> BESALCO <b>1,9%</b>, SONDA <b>2,0%</b>, LAS CONDES <b>0,9%</b>, INDISA <b>1,2%</b></div>
+                  <div class="tt-row"><span class="tt-lbl ok">Caja:</span> <b>~6,0%</b></div>
+                </div>
+              </span>
+            </td>
+            <td></td><td style="text-align:center;color:#969696">—</td><td style="text-align:center;color:#969696">—</td></tr>
+          <tr><td style="text-align:left;font-weight:700;padding:6px 10px;border-top:2px solid var(--sl)">Total</td><td style="text-align:right;font-weight:700;padding:6px 10px;border-top:2px solid var(--sl)">100,0%</td><td style="border-top:2px solid var(--sl)"></td><td style="text-align:center;font-weight:700;padding:6px 10px;border-top:2px solid var(--sl)">0,0%</td><td style="text-align:center;font-weight:700;padding:6px 10px;border-top:2px solid var(--sl)">0,0%</td><td style="text-align:center;font-weight:700;padding:6px 10px;border-top:2px solid var(--sl)">0,0%</td><td style="border-top:2px solid var(--sl)"></td><td colspan="2" style="border-top:2px solid var(--sl)"></td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:10.5px;color:var(--sl);margin-top:8px;padding:6px 8px;background:#F5F5F4;border-radius:4px">"Otros (no trackeados + caja)" incluye: (1) acciones del IPSA no desglosadas individualmente — QUINENCO, ILC, SALFACORP y ENTEL (~4,4% del IPSA en total); (2) posiciones chicas fuera del índice que tienen los fondos (BESALCO, SK, HITES, ABC, CAMANCHACA, SONDA, MOLLER, WATTS, EMBONOR-B, MULTI X, entre otras); y (3) la caja/liquidez de cada fondo (Toesca ~1,9%, <b>BTG ~6,9%</b>, Compass ~1,3%). Sumando stocks + este residual, el <b>Total</b> cierra exacto en 0,0% en los 3 fondos (por definición: cada fondo pondera lo mismo que el IPSA, 100%).</div>
+    </div>
+
+    <!-- RESUMEN SECTORIAL (SOLO TOTALES) -->
+    <div class="sec">
+      <div class="st">
+        Resumen sectorial — OW/UW total por sector
+        <span class="st-note">Negro = positivo · Salmón = negativo</span>
+      </div>
+      <table class="ctb">
+        <colgroup><col style="width:16%"><col style="width:7%"><col style="width:2%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:2%"><col style="width:10%"></colgroup>
+        <thead><tr>
+          <th>Sector</th><th style="text-align:right">% IPSA</th><th></th><th style="text-align:center">Toesca</th><th style="text-align:center">Compass</th><th style="text-align:center">BTG</th><th></th><th style="text-align:center" title="Retorno YTD ponderado por %IPSA de las acciones del sector">YTD Sector</th>
+        </tr></thead>
+        <tbody>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Banco</td><td style="text-align:right;color:#969696">27,1%</td><td></td><td style="text-align:center;color:#000">+1,4%</td><td style="text-align:center;color:#E07F5C">-3,4%</td><td style="text-align:center;color:#E07F5C">-4,7%</td><td></td><td style="text-align:center;color:#000;font-weight:700">+5,0%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Retail</td><td style="text-align:right;color:#969696">12,1%</td><td></td><td style="text-align:center;color:#000">+1,8%</td><td style="text-align:center;color:#000">+3,1%</td><td style="text-align:center;color:#000;font-weight:700">+8,6%</td><td></td><td style="text-align:center;color:#E07F5C;font-weight:700">-14,6%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">RRNN</td><td style="text-align:right;color:#969696">16,9%</td><td></td><td style="text-align:center;color:#E07F5C">-3,2%</td><td style="text-align:center;color:#E07F5C;font-weight:700">-8,8%</td><td style="text-align:center;color:#E07F5C">-3,8%</td><td></td><td style="text-align:center;color:#000;font-weight:700">+6,1%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Transporte</td><td style="text-align:right;color:#969696">10,0%</td><td></td><td style="text-align:center;color:#000">+2,6%</td><td style="text-align:center;color:#000">+3,6%</td><td style="text-align:center;color:#000">+4,9%</td><td></td><td style="text-align:center;color:#000;font-weight:700">+6,9%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Utilities</td><td style="text-align:right;color:#969696">9,6%</td><td></td><td style="text-align:center;color:#000">+0,7%</td><td style="text-align:center;color:#000;font-weight:700">+7,1%</td><td style="text-align:center;color:#E07F5C;font-weight:700">-9,6%</td><td></td><td style="text-align:center;color:#000">+2,8%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Forestal</td><td style="text-align:right;color:#969696">5,2%</td><td></td><td style="text-align:center;color:#000">+1,5%</td><td style="text-align:center;color:#E07F5C">-4,2%</td><td style="text-align:center;color:#E07F5C">-2,3%</td><td></td><td style="text-align:center;color:#E07F5C;font-weight:700">-19,8%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Inmobiliario</td><td style="text-align:right;color:#969696">10,0%</td><td></td><td style="text-align:center;color:#E07F5C">-4,7%</td><td style="text-align:center;color:#E07F5C">-3,0%</td><td style="text-align:center;color:#E07F5C">-2,3%</td><td></td><td style="text-align:center;color:#000;font-weight:700">+21,4%</td></tr>
+          <tr class="sec-row sec-row-gray"><td style="text-align:left">Bebidas</td><td style="text-align:right;color:#969696">4,0%</td><td></td><td style="text-align:center;color:#E07F5C">-1,7%</td><td style="text-align:center;color:#000">+2,1%</td><td style="text-align:center;color:#000">+2,2%</td><td></td><td style="text-align:center;color:#000">+0,4%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- COMENTARIO -->
+    <div class="sec">
+      <div class="st">Comentario de cartera — julio 2026</div>
+      <div class="cmtbox">
+        Los 3 fondos quedaron levemente por debajo del IPSA en el mes (MTD +1,4% / +0,7% / +1,1% vs IPSA +1,5%), pero el <b>alpha YTD sigue positivo en los tres</b> — por primera vez <b>BTG</b> también queda en terreno positivo (+0,5%, mejoró desde -0,5% en junio). <b>Compass</b> sigue liderando tanto en YTD (+6,1%) como en alpha (+2,3%), seguido de <b>Toesca</b> (YTD +5,8%, alpha +2,0%).
+      </div>
+      <div class="cmtby">Comentario generado automáticamente — actualizar con visión del equipo</div>
+      <div style="margin-top:12px">
+        <div class="ii me"><div class="iit">Toesca — mes mixto, SQM-B aportó poco este mes</div><div class="iib">UW en SQM-B (-8,0%) sigue vigente pero la acción casi no se movió en julio (-0,8%), por lo que aportó poco. En contra: OW en Oro Blanco (+5,4%) retrocedió -2,0%.</div></div>
+        <div class="ii hi"><div class="iit">Compass — SMU neutro, Cencomallas restó</div><div class="iib">SMU (OW +8,6%, su mayor apuesta) casi no se movió (+0,2%). Cencomallas (OW +5,3%) cayó -3,2%. Su UW en Chile (-11,6%) le costó con la acción subiendo +4,1%.</div></div>
+        <div class="ii lo"><div class="iit">BTG — mejora notoria: Chile pesa menos este mes</div><div class="iib">Su UW en Chile (-11,6%) sigue siendo la mayor apuesta, pero Chile solo subió +4,1% (vs +9,1% en junio), reduciendo el costo de esa posición. LTM (OW +5,8%) retrocedió -2,6%, restando.</div></div>
+      </div>
+    </div>
+  </div>
+
 
   <div class="mp" id="panel-evo">
     <div class="fund-tabs-evo" style="display:flex;align-items:center;gap:5px;margin-bottom:1rem">
@@ -450,6 +705,11 @@ function fmtD(curr,prev){
 }
 
 let activeFundEvo = 'T';
+
+function showArchiveMonth(id){
+  document.querySelectorAll('.mp-archive').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+}
 
 function spEvo(fund, btn){
   activeFundEvo = fund;
